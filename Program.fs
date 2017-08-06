@@ -27,11 +27,11 @@ let seed =
     //         |> List.map byteToBitArray
     //         |> List.collect id
     //         |> List.toArray
-let randomChars len = 
+let randomChars length = 
     //"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     let rand = System.Random() 
     let chars = String(Array.concat [ [|'A'..'Z'|]; [|'0'..'9'|]; [|'a'..'b'|] ])
-    String(Array.init len (fun _ -> chars.[rand.Next(chars.Length)]))
+    String(Array.init length (fun _ -> chars.[rand.Next(chars.Length)]))
 
 let mutable counter = 0
 
@@ -64,8 +64,6 @@ let verify header =
     checkHash hash
 
 let sender () =
-    printfn "STARTING HASHCASH F#"
-    let seed = randomChars 8
     let continueTaking result = 
         not <| result        
     let randomString = randomChars 8
@@ -83,6 +81,7 @@ let recipient header =
 
 [<EntryPoint>]
 let main argv =
+    printfn "STARTING HASHCASH F#"
     printfn "%A" DateTime.Now
     match argv.[0] with
     | "sender" ->       sender ()
