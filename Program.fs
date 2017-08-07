@@ -35,14 +35,15 @@ let randomChars length =
 
 let mutable counter = 0
 
-let header counter randomString =
+let header counter (randomString:string) =
     let ver = sprintf "%i" 1
     let bits = sprintf "%i" 20
-    let date = sprintf "%s" (DateTime.Now.ToString("yyMMddmmss"))
-    let resource = sprintf "%s" "hashcash@mailinator.com"
-    let extension = sprintf "%s" String.Empty
-    let rand = sprintf "%s" randomString 
-    sprintf "%s:%s:%s:%s:%s:%s:%i" ver bits date resource extension rand counter
+    let date = string (DateTime.Now.ToString("yyMMddmmss"))
+    let resource = "hashcash@mailinator.com"
+    let extension = String.Empty
+    let rand = Convert.ToBase64String(Encoding.UTF8.GetBytes(randomString)) 
+    let base64Counter = Convert.ToBase64String(Encoding.UTF8.GetBytes(string counter))
+    sprintf "%s:%s:%s:%s:%s:%s:%s" ver bits date resource extension rand base64Counter
 
 let checkHash (hash:byte[]) =
     let firstByte = (hash.[0] = byte 0)
